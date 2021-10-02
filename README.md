@@ -104,7 +104,7 @@ Built in Zabbix 5.4.  May work with other versions.
 ![](screenshots/graph5.png)
 
 ### Sendgrid White Labels
-![](screenshots/graph6.png)
+![](screenshots/graph6a.png)
 
 
 ## Contact
