@@ -1,0 +1,1936 @@
+zabbix_export:
+  version: '5.4'
+  date: '2021-10-02T03:42:21Z'
+  groups:
+    -
+      uuid: c1042abaca9d435ca00326c24768d8b8
+      name: 'API Providers'
+  templates:
+    -
+      uuid: 6cf7052451c34f458eac37c052bc7aea
+      template: 'Sendgrid API Provider'
+      name: 'Sendgrid API Provider'
+      description: 'Sendgrid API Provider to retrieve account information.'
+      groups:
+        -
+          name: 'API Providers'
+      items:
+        -
+          uuid: ff652f8a3fd949508be4ae80e802f7c3
+          name: 'Sendgrid Alerts Count'
+          type: DEPENDENT
+          key: sendgrid.api.alerts.count
+          delay: '0'
+          units: Alerts
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body..length()
+          master_item:
+            key: sendgrid.api.alerts.data
+          triggers:
+            -
+              uuid: cf2865b124bd424caadeca71970f6aef
+              expression: 'last(/Sendgrid API Provider/sendgrid.api.alerts.count)=0'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'last(/Sendgrid API Provider/sendgrid.api.alerts.count)>0'
+              name: 'Sendgrid Alerts Not Configured'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: INFO
+              manual_close: 'YES'
+        -
+          uuid: 93edb39504854364953b15577d26f21e
+          name: sendgrid.api.alerts.data
+          type: HTTP_AGENT
+          key: sendgrid.api.alerts.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/alerts'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 6bee5b5b22da4235890705c3ca7dd4e5
+          name: 'Sendgrid Supressions Count'
+          type: DEPENDENT
+          key: sendgrid.api.asm.supressions.count
+          delay: '0'
+          units: Supressions
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.length()
+          master_item:
+            key: sendgrid.api.asm.supressions.data
+        -
+          uuid: f2c449b4c1674795b599d51b47366597
+          name: sendgrid.api.asm.supressions.data
+          type: HTTP_AGENT
+          key: sendgrid.api.asm.supressions.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/asm/suppressions'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 04abc5cb5dd64522934c8063ab412c75
+          name: 'Sendgrid Supressions  Groups Count'
+          type: DEPENDENT
+          key: sendgrid.api.asm.supressions.groups.count
+          delay: '0'
+          units: 'Supression Groups'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.length()
+          master_item:
+            key: sendgrid.api.asm.supressions.groups.data
+        -
+          uuid: 671c70d9fed245a2b0ad318b8e8b5fcf
+          name: sendgrid.api.asm.supressions.groups.data
+          type: HTTP_AGENT
+          key: sendgrid.api.asm.supressions.groups.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/asm/groups'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: d99e8756364c40cca21ac823c9aad73d
+          name: sendgrid.api.credits.data
+          type: HTTP_AGENT
+          key: sendgrid.api.credits.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/user/credits'
+          status_codes: ''
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Accept
+              value: application/json
+          output_format: JSON
+        -
+          uuid: ca211690de0e41c09d96e1e9eab4576c
+          name: 'Sendgrid Send Credits Overage'
+          type: DEPENDENT
+          key: sendgrid.api.credits.overage
+          delay: '0'
+          units: Emails
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.overage
+          master_item:
+            key: sendgrid.api.credits.data
+          triggers:
+            -
+              uuid: 4e474c12aee1400381a08402a2615976
+              expression: 'last(/Sendgrid API Provider/sendgrid.api.credits.overage)>0'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'last(/Sendgrid API Provider/sendgrid.api.credits.overage)=0'
+              name: 'Sendgrid Creidts Overage'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: HIGH
+              manual_close: 'YES'
+              tags:
+                -
+                  tag: API-Status
+                  value: Overage
+        -
+          uuid: 8962e9b28d214a52ae255411f0660217
+          name: 'Sendgrid Send Credits Remaining'
+          type: DEPENDENT
+          key: sendgrid.api.credits.remaining
+          delay: '0'
+          units: Emails
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.remain
+          master_item:
+            key: sendgrid.api.credits.data
+        -
+          uuid: aaf749f6cdc1453db4e72253029b124f
+          name: 'Sendgrid Send Credits Total'
+          type: DEPENDENT
+          key: sendgrid.api.credits.total
+          delay: '0'
+          units: Emails
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.total
+          master_item:
+            key: sendgrid.api.credits.data
+          triggers:
+            -
+              uuid: a8aa6dcf490a4334811698d2c3797947
+              expression: 'change(/Sendgrid API Provider/sendgrid.api.credits.total)<>0'
+              name: 'Sendgrid Credits Plan Changed'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: WARNING
+              manual_close: 'YES'
+              tags:
+                -
+                  tag: API-Status
+                  value: 'Plan Change'
+        -
+          uuid: f49b91c06403435b97d720d55a9341ce
+          name: 'Sendgrid Send Credits Used'
+          type: DEPENDENT
+          key: sendgrid.api.credits.used
+          delay: '0'
+          units: Emails
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.used
+          master_item:
+            key: sendgrid.api.credits.data
+        -
+          uuid: 16a411ef883d4c92aca301d3b1690bbd
+          name: 'Sendgrid Send Credits Used (Change)'
+          type: DEPENDENT
+          key: sendgrid.api.credits.used.changed
+          delay: '0'
+          units: Emails
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.used
+            -
+              type: SIMPLE_CHANGE
+              parameters:
+                - ''
+          master_item:
+            key: sendgrid.api.credits.data
+        -
+          uuid: 38a8a639cd144a3cb09c8e4721a9d0da
+          name: 'Sendgrid Designs Count'
+          type: DEPENDENT
+          key: sendgrid.api.designs.count
+          delay: '0'
+          units: Designs
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body._metadata.count
+          master_item:
+            key: sendgrid.api.designs.data
+        -
+          uuid: b5e9476733d240d9bb2161956acc1922
+          name: sendgrid.api.designs.data
+          type: HTTP_AGENT
+          key: sendgrid.api.designs.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/designs'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 2ed6ad96d3ba478b82d98989b7e85cb3
+          name: 'Sendgrid IP Pools Count'
+          type: DEPENDENT
+          key: sendgrid.api.ippools.count
+          delay: '0'
+          units: 'IP Pools'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.length()
+          master_item:
+            key: sendgrid.api.ippools.data
+        -
+          uuid: ba778a597dab4d029264825965dcd21b
+          name: sendgrid.api.ippools.data
+          type: HTTP_AGENT
+          key: sendgrid.api.ippools.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/ips/pools'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 65e4a261f8db4581890e5371bfb8aee5
+          name: 'Sendgrid IPs Assigned Count'
+          type: DEPENDENT
+          key: sendgrid.api.ips.assigned.count
+          delay: '0'
+          units: IPs
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.length()
+          master_item:
+            key: sendgrid.api.ips.assigned.data
+        -
+          uuid: 7e11d863b0b94f92815bebca58bbdc2c
+          name: sendgrid.api.ips.assigned.data
+          type: HTTP_AGENT
+          key: sendgrid.api.ips.assigned.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/ips/assigned'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: d75523d7669143a59afa5780e0e11832
+          name: 'Sendgrid Send IPs Count'
+          type: DEPENDENT
+          key: sendgrid.api.ips.count
+          delay: '0'
+          units: IPs
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.length()
+          master_item:
+            key: sendgrid.api.ips.data
+        -
+          uuid: 772289f579b24b7eb71bd9dc9c69f808
+          name: sendgrid.api.ips.data
+          type: HTTP_AGENT
+          key: sendgrid.api.ips.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/ips'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: b67949b6fb4b49ca962c58e0ce85cfa8
+          name: 'Sendgrid IPs Remaining'
+          type: DEPENDENT
+          key: sendgrid.api.ips.remaining.count
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          description: 'The number of IPs that can still be added to the user.'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.results..remaining
+          master_item:
+            key: sendgrid.api.ips.remaining.data
+        -
+          uuid: c8a0fcfe499946c7a70b9c7c620a81f6
+          name: sendgrid.api.ips.remaining.data
+          type: HTTP_AGENT
+          key: sendgrid.api.ips.remaining.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/ips/remaining'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: c30367bdd51c4b23ae0130c2f82ae478
+          name: 'Sendgrid IPs Purchase Cost'
+          type: DEPENDENT
+          key: sendgrid.api.ips.remaining.purchase.cost
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          description: 'The current cost to add an IP.'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.results..price_per_ip
+          master_item:
+            key: sendgrid.api.ips.remaining.data
+        -
+          uuid: 7181b207f28a416d9c4a01e26332f15d
+          name: 'Sendgrid IPs Warmup Count'
+          type: DEPENDENT
+          key: sendgrid.api.ips.warmup.count
+          delay: '0'
+          units: IPs
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.length()
+          master_item:
+            key: sendgrid.api.ips.warmup.data
+        -
+          uuid: 66c4d73ca80c4f42a153e96a3ca48560
+          name: sendgrid.api.ips.warmup.data
+          type: HTTP_AGENT
+          key: sendgrid.api.ips.warmup.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/ips/warmup'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 3c6a0633009d470da1809727e8dadb0e
+          name: 'Sendgrid Security - API Keys Count'
+          type: DEPENDENT
+          key: sendgrid.api.security.apikeys.count
+          delay: '0'
+          units: Keys
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.result.length()
+          master_item:
+            key: sendgrid.api.security.apikeys.data
+          triggers:
+            -
+              uuid: 4c9ab41f51a44516a549ec55653e2d87
+              expression: 'change(/Sendgrid API Provider/sendgrid.api.security.apikeys.count)>0'
+              name: 'Sendgrid API Key Added'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: WARNING
+              manual_close: 'YES'
+              tags:
+                -
+                  tag: API-Status
+                  value: Security
+            -
+              uuid: c7a2224d7eb941199c2ef7e0795ae831
+              expression: 'change(/Sendgrid API Provider/sendgrid.api.security.apikeys.count)>0'
+              name: 'Sendgrid API Key Removed'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: WARNING
+              manual_close: 'YES'
+              tags:
+                -
+                  tag: API-Status
+                  value: Security
+        -
+          uuid: 504964b265e743618b894e62b3fea5a2
+          name: sendgrid.api.security.apikeys.data
+          type: HTTP_AGENT
+          key: sendgrid.api.security.apikeys.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/api_keys'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 6733b7fc43bd491ea734423b3db20f47
+          name: 'Sendgrid Security - Authorized IP - Recent IP Authorization Activity Count'
+          type: DEPENDENT
+          key: sendgrid.api.security.ipaccess.activity.count
+          delay: '0'
+          units: IPs
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.result.length()
+          master_item:
+            key: sendgrid.api.security.ipaccess.activity.data
+        -
+          uuid: 6fba4647de784a47b1bb715ec7288dd3
+          name: sendgrid.api.security.ipaccess.activity.data
+          type: HTTP_AGENT
+          key: sendgrid.api.security.ipaccess.activity.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/access_settings/activity'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: cc955e6b2e3e452ebab531471009d3ab
+          name: 'Sendgrid Security - Authorized IP Address Count'
+          type: DEPENDENT
+          key: sendgrid.api.security.ipaccess.count
+          delay: '0'
+          units: IPs
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.result.length()
+          master_item:
+            key: sendgrid.api.security.ipaccess.data
+          triggers:
+            -
+              uuid: 28a31d47301c4bebbac922b36d236ae8
+              expression: 'change(/Sendgrid API Provider/sendgrid.api.security.ipaccess.count)<>0'
+              recovery_mode: NONE
+              name: 'Sendgrid Authorized IP Control Count Changed'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: WARNING
+              manual_close: 'YES'
+            -
+              uuid: e8c79b5e46914c23aaceeaea42f814a4
+              expression: 'last(/Sendgrid API Provider/sendgrid.api.security.ipaccess.count)=0'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'last(/Sendgrid API Provider/sendgrid.api.security.ipaccess.count)>1'
+              name: 'Sendgrid Authorized IP Control Not Configured'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: INFO
+              manual_close: 'YES'
+        -
+          uuid: 30b1caada26f4cab882db0354af9871f
+          name: sendgrid.api.security.ipaccess.data
+          type: HTTP_AGENT
+          key: sendgrid.api.security.ipaccess.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/access_settings/whitelist'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 342e9411dbdc4174bc36037992287813
+          name: 'Sendgrid Security Subusers Count'
+          type: DEPENDENT
+          key: sendgrid.api.security.subusers.count
+          delay: '0'
+          units: Users
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.length()
+          master_item:
+            key: sendgrid.api.security.subusers.data
+          triggers:
+            -
+              uuid: c0916b0a73cc4d748cc9679fab191490
+              expression: 'change(/Sendgrid API Provider/sendgrid.api.security.subusers.count)<>0'
+              name: 'Sendgrid Subuser Count Change'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: WARNING
+              manual_close: 'YES'
+        -
+          uuid: da300fd03fec4e56bae055d0934d70b9
+          name: sendgrid.api.security.subusers.data
+          type: HTTP_AGENT
+          key: sendgrid.api.security.subusers.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/subusers'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 416e66a3ec7c412697d540a4eceb1e07
+          name: sendgrid.api.settings.enforcedtls.data
+          type: HTTP_AGENT
+          key: sendgrid.api.settings.enforcedtls.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/user/settings/enforced_tls'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: cdea1efd65d4424ab2edf9e05526995b
+          name: 'Sendgrid Settings - Enforced TLS Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.settings.enforcedtls.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.require_tls
+          master_item:
+            key: sendgrid.api.settings.enforcedtls.data
+        -
+          uuid: af4dfa4e63534464b9adf5c7936a838e
+          name: 'Sendgrid Settings - TLS Valid Cert Required'
+          type: DEPENDENT
+          key: sendgrid.api.settings.enforcedtls.validcert.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.require_valid_cert
+          master_item:
+            key: sendgrid.api.settings.enforcedtls.data
+        -
+          uuid: 11eb2f6db4114522877d4f1695f21645
+          name: 'Sendgrid Settings - Enforced TLS Version'
+          type: DEPENDENT
+          key: sendgrid.api.settings.enforcedtls.version
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.version
+          master_item:
+            key: sendgrid.api.settings.enforcedtls.data
+        -
+          uuid: 79e5f90ed41b443e90d27154b7c95cb0
+          name: 'Sendgrid Settings - Mail - Address Whitelist Count'
+          type: DEPENDENT
+          key: sendgrid.api.settings.mail.addresswhitelist.count
+          delay: '0'
+          units: Domains
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.list.length()
+          master_item:
+            key: sendgrid.api.settings.mail.addresswhitelist.data
+        -
+          uuid: d2503444e04747bea5969ab217a27eda
+          name: sendgrid.api.settings.mail.addresswhitelist.data
+          type: HTTP_AGENT
+          key: sendgrid.api.settings.mail.addresswhitelist.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/mail_settings/address_whitelist'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 4288e5c9e0f04edaa1298c9dfdc97b88
+          name: 'Sendgrid Settings - Mail - Address Whitelist Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.settings.mail.addresswhitelist.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.enabled
+          master_item:
+            key: sendgrid.api.settings.mail.addresswhitelist.data
+        -
+          uuid: 9b85e7f2c5d1475c8051c6fd04f918bc
+          name: sendgrid.api.settings.mail.data
+          type: HTTP_AGENT
+          key: sendgrid.api.settings.mail.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/mail_settings'
+          status_codes: ''
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: c0f6b12acb364dd89df1cfe7fb84980e
+          name: sendgrid.api.settings.mail.forwardspam.data
+          type: HTTP_AGENT
+          key: sendgrid.api.settings.mail.forwardspam.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/mail_settings/forward_spam'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 362f1e59f53747c7b1836709d607ec3e
+          name: 'Sendgrid Settings - Mail - Forward Spam Reports Email Address'
+          type: DEPENDENT
+          key: sendgrid.api.settings.mail.forwardspam.email
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.email
+          master_item:
+            key: sendgrid.api.settings.mail.forwardspam.data
+          triggers:
+            -
+              uuid: 0107d85ada3a4047b834570a05e3e2ad
+              expression: 'change(/Sendgrid API Provider/sendgrid.api.settings.mail.forwardspam.email)<>0'
+              name: 'Sendgrid Forward Spam Email Changed'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: INFO
+              manual_close: 'YES'
+        -
+          uuid: cadd8f3e61d94c67aeabce39d3dfcc39
+          name: 'Sendgrid Settings - Mail - Forward Spam Reports Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.settings.mail.forwardspam.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.enabled
+          master_item:
+            key: sendgrid.api.settings.mail.forwardspam.data
+        -
+          uuid: d3297cd17c8c454da742b7dc2e1b2fc3
+          name: sendgrid.api.stats.data
+          type: HTTP_AGENT
+          key: sendgrid.api.stats.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/stats'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 229d337a89f54b298a6ae3ca9387d062
+          name: 'Sendgrid Supression - Recent Blocks Count'
+          type: DEPENDENT
+          key: sendgrid.api.supression.blocks.count
+          delay: '0'
+          units: Blocks
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.length()
+          master_item:
+            key: sendgrid.api.supression.blocks.data
+          triggers:
+            -
+              uuid: 82654b22c8a84ca8a92430ff8238d40a
+              expression: 'change(/Sendgrid API Provider/sendgrid.api.supression.blocks.count)>0'
+              name: 'Sendgrid Suppresion - New Blocked Email'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: INFO
+              manual_close: 'YES'
+        -
+          uuid: 38f700045ca44c8580dc4624b22fd524
+          name: sendgrid.api.supression.blocks.data
+          type: HTTP_AGENT
+          key: sendgrid.api.supression.blocks.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/suppression/blocks'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 42cfbbb3d38340909f6718c3c9c46823
+          name: 'Sendgrid Supressions Recent Bounces Count'
+          type: DEPENDENT
+          key: sendgrid.api.supression.bounces.count
+          delay: '0'
+          units: Bounces
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.length()
+          master_item:
+            key: sendgrid.api.supression.bounces.data
+          triggers:
+            -
+              uuid: fd246385e4be4b63a3d019f27a2ee09a
+              expression: 'change(/Sendgrid API Provider/sendgrid.api.supression.bounces.count)>0'
+              name: 'Sendgrid Suppresion - New Bounced Email'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: INFO
+              manual_close: 'YES'
+        -
+          uuid: 4128a27bb171478f8dad713fed1eb645
+          name: sendgrid.api.supression.bounces.data
+          type: HTTP_AGENT
+          key: sendgrid.api.supression.bounces.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/suppression/bounces'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 1e8820c180924431a5625aac0ff46c91
+          name: 'Sendgrid Supressions Recent Invalid Emails Count'
+          type: DEPENDENT
+          key: sendgrid.api.supression.invalidemails.count
+          delay: '0'
+          units: 'Invalid Emails'
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.length()
+          master_item:
+            key: sendgrid.api.supression.invalidemails.data
+          triggers:
+            -
+              uuid: 9793fbc39e2b4fbeba808ee17b9eb594
+              expression: 'change(/Sendgrid API Provider/sendgrid.api.supression.invalidemails.count)>1'
+              name: 'Sendgrid Supression - New Invalid Address'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: INFO
+              manual_close: 'YES'
+        -
+          uuid: e5a6ab75af2c49c488865de7d79990ea
+          name: sendgrid.api.supression.invalidemails.data
+          type: HTTP_AGENT
+          key: sendgrid.api.supression.invalidemails.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/suppression/invalid_emails'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 15163f8178124c3e9fede7d9c98ef704
+          name: 'Sendgrid Supression Recent Spam Reports Count'
+          type: DEPENDENT
+          key: sendgrid.api.supression.spamreports.count
+          delay: '0'
+          units: Reports
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.length()
+          master_item:
+            key: sendgrid.api.supression.spamreports.data
+          triggers:
+            -
+              uuid: 99c89942e24e49f7ac06355fb43a983e
+              expression: 'change(/Sendgrid API Provider/sendgrid.api.supression.spamreports.count)>0'
+              name: 'Sendgrid Supression - New Spam Report'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: WARNING
+              manual_close: 'YES'
+        -
+          uuid: 7fec0a9209334ec986d160472011ed1c
+          name: sendgrid.api.supression.spamreports.data
+          type: HTTP_AGENT
+          key: sendgrid.api.supression.spamreports.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/suppression/spam_reports'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 686331bed2ba485ba8bedfbf764d878d
+          name: 'Sendgrid Supressions Recent Unsubscribes Count'
+          type: DEPENDENT
+          key: sendgrid.api.supression.unsubscribes.count
+          delay: '0'
+          units: Unsubsribes
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.length()
+          master_item:
+            key: sendgrid.api.supression.bounces.data
+          triggers:
+            -
+              uuid: 4b1978171a4245ed926478edf97ba4e9
+              expression: 'change(/Sendgrid API Provider/sendgrid.api.supression.unsubscribes.count)>0'
+              name: 'Sendgrid Supression - New Unsubscriber'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: INFO
+              manual_close: 'YES'
+        -
+          uuid: 7457066a272b40a987dea974d3b5ed76
+          name: sendgrid.api.supression.unsubscribes.data
+          type: HTTP_AGENT
+          key: sendgrid.api.supression.unsubscribes.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/suppression/unsubscribes'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 7a71017613344a0c807d3e6d919f8f3a
+          name: sendgrid.api.tracking.settings.data
+          type: HTTP_AGENT
+          key: sendgrid.api.tracking.settings.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          description: 'This endpoint allows you to retrieve a list of all tracking settings on your account.'
+          url: 'https://api.sendgrid.com/v3/tracking_settings'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 4e97c4e05d7541d6be07047a20821d5e
+          name: sendgrid.api.tracking.settings.googleanalytics.data
+          type: HTTP_AGENT
+          key: sendgrid.api.tracking.settings.googleanalytics.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/tracking_settings/google_analytics'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 0762eb1e62154688844e3a23a845e00b
+          name: 'Sendgrid Google Analytics Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.tracking.settings.googleanalytics.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.enabled
+          master_item:
+            key: sendgrid.api.tracking.settings.googleanalytics.data
+        -
+          uuid: 4c572801f9a045728ce2987429b68ee4
+          name: sendgrid.api.tracking.settings.open.data
+          type: HTTP_AGENT
+          key: sendgrid.api.tracking.settings.open.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/tracking_settings/open'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 54e1574e8bdf41e5b6affe0e7b2d35b3
+          name: 'Sendgrid Settings Tracking Email Opens Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.tracking.settings.open.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.enabled
+          master_item:
+            key: sendgrid.api.tracking.settings.open.data
+        -
+          uuid: dd8aca74cdba418ab0b5cdab60d0cd5b
+          name: sendgrid.api.verifiedsenders.completed.data
+          type: HTTP_AGENT
+          key: sendgrid.api.verifiedsenders.completed.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/verified_senders/steps_completed'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: eae4db791d6149b4b9a693549b681a9c
+          name: 'Sendgrid Verified Senders Count'
+          type: DEPENDENT
+          key: sendgrid.api.verifiedsenders.count
+          delay: '0'
+          units: Senders
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.results.length()
+              error_handler: DISCARD_VALUE
+          master_item:
+            key: sendgrid.api.verifiedsenders.data
+          triggers:
+            -
+              uuid: c7c5196cc623430185377e51b0f38abe
+              expression: 'last(/Sendgrid API Provider/sendgrid.api.verifiedsenders.count)<>0'
+              name: 'Sendgrid Verified Senders Change'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: WARNING
+              manual_close: 'YES'
+        -
+          uuid: a1bc0833c3084542b099add2617fae71
+          name: sendgrid.api.verifiedsenders.data
+          type: HTTP_AGENT
+          key: sendgrid.api.verifiedsenders.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/verified_senders'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 7a289f48dd5b4e37a41981b434a2185e
+          name: sendgrid.api.verifiedsenders.domains.data
+          type: HTTP_AGENT
+          key: sendgrid.api.verifiedsenders.domains.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/verified_senders/domains'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: b2e6d88669bd4426a4ffbfcfe840d0a8
+          name: 'Sendgrid Verified Senders - Domain Warn - Hard Failures Count'
+          type: DEPENDENT
+          key: sendgrid.api.verifiedsenders.domains.hardfailures.count
+          delay: '0'
+          units: Domains
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.results.hard_failures.length()
+          master_item:
+            key: sendgrid.api.verifiedsenders.domains.data
+        -
+          uuid: 5bff5b8f93364a40a2d52e1319cbc401
+          name: 'Sendgrid Verified Senders - Domain Warn - Soft Failures Count'
+          type: DEPENDENT
+          key: sendgrid.api.verifiedsenders.domains.softfailures.count
+          delay: '0'
+          units: Domains
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.results.soft_failures.length()
+          master_item:
+            key: sendgrid.api.verifiedsenders.domains.data
+        -
+          uuid: ec9d02ed965c4fce997cc44e10b0e362
+          name: 'Sendgrid Verified Senders - Domain Verification Completed'
+          type: DEPENDENT
+          key: sendgrid.api.verifiedsenders.domainverified.completed
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.results.domain_verified
+          master_item:
+            key: sendgrid.api.verifiedsenders.completed.data
+          triggers:
+            -
+              uuid: 660f8ed4279845eb905611a5cdbd5a7b
+              expression: 'last(/Sendgrid API Provider/sendgrid.api.verifiedsenders.domainverified.completed)="false"'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'last(/Sendgrid API Provider/sendgrid.api.verifiedsenders.domainverified.completed)="true"'
+              name: 'Sendgrid Domain Verifcation Not Completed'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: INFO
+              manual_close: 'YES'
+        -
+          uuid: 3e86a163976244ba9aff4b5c323a68c1
+          name: 'Sendgrid Verified Senders - Sender Verification Completed'
+          type: DEPENDENT
+          key: sendgrid.api.verifiedsenders.senderverified.completed
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.results.sender_verified
+          master_item:
+            key: sendgrid.api.verifiedsenders.completed.data
+          triggers:
+            -
+              uuid: 4bc745ef3126419795679db5f41ad9f2
+              expression: 'last(/Sendgrid API Provider/sendgrid.api.verifiedsenders.senderverified.completed)="false"'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'last(/Sendgrid API Provider/sendgrid.api.verifiedsenders.senderverified.completed)="true"'
+              name: 'Sendgrid Sender Verifcation Not Completed'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: INFO
+              manual_close: 'YES'
+        -
+          uuid: 9ae67a5f4f9f493fa44bb50467a9a686
+          name: 'Sendgrid Webhook Events - Bounce Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.webhooks.events.bounce.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.bounce
+          master_item:
+            key: sendgrid.api.webhooks.events.settings.data
+        -
+          uuid: 646adf11fb12408c97b3ed58da8d54a9
+          name: 'Sendgrid Webhook Events - Click Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.webhooks.events.click.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.click
+          master_item:
+            key: sendgrid.api.webhooks.events.settings.data
+        -
+          uuid: 1b1178a09f974feba9edf9f9234b398d
+          name: 'Sendgrid Webhook Events - Deferred Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.webhooks.events.deferred.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.deferred
+          master_item:
+            key: sendgrid.api.webhooks.events.settings.data
+        -
+          uuid: 8497180acbf34b549afa67aa30288291
+          name: 'Sendgrid Webhook Events - Delivered Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.webhooks.events.delivered.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.delivered
+          master_item:
+            key: sendgrid.api.webhooks.events.settings.data
+        -
+          uuid: 9bceb72b7a94409781929c37e05ab5d3
+          name: 'Sendgrid Webhook Events - Dropped Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.webhooks.events.dropped.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.dropped
+          master_item:
+            key: sendgrid.api.webhooks.events.settings.data
+        -
+          uuid: a5ece716c3b44d7caaeb4e60635a4ff5
+          name: 'Sendgrid Webhook Events - Group Resubscribe Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.webhooks.events.groupresubscribe.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.group_resubscribe
+          master_item:
+            key: sendgrid.api.webhooks.events.settings.data
+        -
+          uuid: 2cb61b28e20a4e5284d6f08c62ddd982
+          name: 'Sendgrid Webhook Events - Group Unsubscribe Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.webhooks.events.groupunsubscribe.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.group_unsubscribe
+          master_item:
+            key: sendgrid.api.webhooks.events.settings.data
+        -
+          uuid: 7ba3a3848079403eb0c291d6962b2434
+          name: 'Sendgrid Webhook Events - Open Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.webhooks.events.open.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.open
+          master_item:
+            key: sendgrid.api.webhooks.events.settings.data
+        -
+          uuid: 44623f18f4eb478eb7ded76cc5b9b9fc
+          name: 'Sendgrid Webhook Events - Processed Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.webhooks.events.processed.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.processed
+          master_item:
+            key: sendgrid.api.webhooks.events.settings.data
+        -
+          uuid: d7a57257e4e74f5c8593af9fd7fc87da
+          name: sendgrid.api.webhooks.events.settings.data
+          type: HTTP_AGENT
+          key: sendgrid.api.webhooks.events.settings.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/user/webhooks/event/settings'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 055e6d1d5cbe443a8f2268ab3d49b586
+          name: 'Sendgrid Webhook Events - Spam Report Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.webhooks.events.spam_report.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.spam_report
+          master_item:
+            key: sendgrid.api.webhooks.events.settings.data
+        -
+          uuid: 74d5a1a790b7469bb06d305648bf3ce8
+          name: 'Sendgrid Webhook Events - Unsubscribe Enabled'
+          type: DEPENDENT
+          key: sendgrid.api.webhooks.events.unsubscribe.enabled
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.unsubscribe
+          master_item:
+            key: sendgrid.api.webhooks.events.settings.data
+        -
+          uuid: d1d949a4f1284b0696f33fdb3fbe5a67
+          name: 'Sendgrid Webhook Events - URL'
+          type: DEPENDENT
+          key: sendgrid.api.webhooks.events.url
+          delay: '0'
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.url
+          master_item:
+            key: sendgrid.api.webhooks.events.settings.data
+          triggers:
+            -
+              uuid: d0602bf423a1432cb0b33752dc79ad4a
+              expression: 'change(/Sendgrid API Provider/sendgrid.api.webhooks.events.url)<>0'
+              name: 'Sendgrid Webhook URL Changed'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: WARNING
+              manual_close: 'YES'
+        -
+          uuid: 5637f96a03c946d6b5ea7716a02a2edd
+          name: 'Sendgrid Webhook Inbound Parsers Count'
+          type: DEPENDENT
+          key: sendgrid.api.webhooks.parse.settings.count
+          delay: '0'
+          units: Parsers
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.result.length()
+          master_item:
+            key: sendgrid.api.webhooks.parse.settings.data
+        -
+          uuid: 66b9fef1ad674fce92f1818df1615520
+          name: sendgrid.api.webhooks.parse.settings.data
+          type: HTTP_AGENT
+          key: sendgrid.api.webhooks.parse.settings.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/user/webhooks/parse/settings'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 2378e4b1a1764fc5a506b40be9b2d013
+          name: 'Sendgrid Whitelabel Domains Count'
+          type: DEPENDENT
+          key: sendgrid.api.whitelabel.domains.count
+          delay: '0'
+          units: Domains
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.length()
+          master_item:
+            key: sendgrid.api.whitelabel.domains.data
+          triggers:
+            -
+              uuid: 4ebe52eea0414c8dbbbf6bd94cc74365
+              expression: 'change(/Sendgrid API Provider/sendgrid.api.whitelabel.domains.count)<>0'
+              name: 'Sendgrid Whitelabel Domains Count Change'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: WARNING
+              manual_close: 'YES'
+        -
+          uuid: 7549692825d94578b4f863170964912b
+          name: sendgrid.api.whitelabel.domains.data
+          type: HTTP_AGENT
+          key: sendgrid.api.whitelabel.domains.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/whitelabel/domains'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 37f19a53a02a4a1481f3e15cc3cf8c1c
+          name: sendgrid.api.whitelabel.domains.default.data
+          type: HTTP_AGENT
+          key: sendgrid.api.whitelabel.domains.default.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/whitelabel/domains/default'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 57712f20e794405e97d3017661943be8
+          name: sendgrid.api.whitelabel.ips.data
+          type: HTTP_AGENT
+          key: sendgrid.api.whitelabel.ips.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/whitelabel/ips'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+        -
+          uuid: 9db8b47a88734888ba5c1134bb1935c5
+          name: 'Sendgrid Whitelabel Links Count'
+          type: DEPENDENT
+          key: sendgrid.api.whitelabel.links.count
+          delay: '0'
+          units: Links
+          preprocessing:
+            -
+              type: JSONPATH
+              parameters:
+                - $.body.length()
+          master_item:
+            key: sendgrid.api.whitelabel.links.data
+          triggers:
+            -
+              uuid: d4cb07857a864acb9c3b237465c10542
+              expression: 'change(/Sendgrid API Provider/sendgrid.api.whitelabel.links.count)<>0'
+              name: 'Sendgrid whitelabel Links Count Chnaged'
+              opdata: '{ITEM.LASTVALUE1}'
+              priority: WARNING
+              manual_close: 'YES'
+        -
+          uuid: f2ee34995e0a4f949bdf6d0fd77d3be6
+          name: sendgrid.api.whitelabel.links.data
+          type: HTTP_AGENT
+          key: sendgrid.api.whitelabel.links.data
+          delay: 10m
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          url: 'https://api.sendgrid.com/v3/whitelabel/links'
+          headers:
+            -
+              name: Authorization
+              value: 'Bearer {$SENDGRIDAPIKEY}'
+            -
+              name: Content-Type
+              value: application/json
+          output_format: JSON
+      tags:
+        -
+          tag: API
+          value: Sendgrid
+        -
+          tag: Application
+          value: API
+        -
+          tag: Application
+          value: Sendgrid
+      macros:
+        -
+          macro: '{$SENDGRIDAPIKEY}'
+          value: YOUR_API_KEY
+          description: 'Sendgrid API Key'
+      dashboards:
+        -
+          uuid: b1752ed995e248618d9b8c1c749159c5
+          name: Sendgrid
+          display_period: '600'
+          pages:
+            -
+              widgets:
+                -
+                  type: GRAPH_CLASSIC
+                  name: 'Sendgrid API Keys'
+                  'y': '5'
+                  width: '23'
+                  height: '5'
+                  fields:
+                    -
+                      type: GRAPH
+                      name: graphid
+                      value:
+                        name: 'Sendgrid API Keys'
+                        host: 'Sendgrid API Provider'
+                -
+                  type: GRAPH_CLASSIC
+                  name: 'Sendgrid Credits'
+                  width: '23'
+                  height: '5'
+                  fields:
+                    -
+                      type: GRAPH
+                      name: graphid
+                      value:
+                        name: 'Sendgrid Credits'
+                        host: 'Sendgrid API Provider'
+                -
+                  type: GRAPH_CLASSIC
+                  name: 'Sendgrid Recent Supressions'
+                  'y': '10'
+                  width: '23'
+                  height: '5'
+                  fields:
+                    -
+                      type: GRAPH
+                      name: graphid
+                      value:
+                        name: 'Sendgrid Recent Supressions'
+                        host: 'Sendgrid API Provider'
+                -
+                  type: GRAPH_CLASSIC
+                  name: 'Sendgrid Whitelabels'
+                  'y': '15'
+                  width: '23'
+                  height: '5'
+                  fields:
+                    -
+                      type: GRAPH
+                      name: graphid
+                      value:
+                        name: 'Sendgrid Whitelabels'
+                        host: 'Sendgrid API Provider'
+  triggers:
+    -
+      uuid: 8253ac36fb714ca3ae2417c252aa2d5e
+      expression: 'last(/Sendgrid API Provider/sendgrid.api.credits.used)>last(/Sendgrid API Provider/sendgrid.api.credits.total)*.50'
+      recovery_mode: RECOVERY_EXPRESSION
+      recovery_expression: 'last(/Sendgrid API Provider/sendgrid.api.credits.used) < last(/Sendgrid API Provider/sendgrid.api.credits.total)*.50'
+      name: 'Sendgrid Credits 50% Used'
+      opdata: '{ITEM.LASTVALUE1} / {ITEM.LASTVALUE2}'
+      priority: INFO
+      manual_close: 'YES'
+      tags:
+        -
+          tag: API-Status
+          value: Credits
+    -
+      uuid: 7aa3d5e195364a8abd7e4833803bd176
+      expression: 'last(/Sendgrid API Provider/sendgrid.api.credits.used)>last(/Sendgrid API Provider/sendgrid.api.credits.total)*.75'
+      recovery_mode: RECOVERY_EXPRESSION
+      recovery_expression: 'last(/Sendgrid API Provider/sendgrid.api.credits.used) < last(/Sendgrid API Provider/sendgrid.api.credits.total)*.75'
+      name: 'Sendgrid Credits 75% Used'
+      opdata: '{ITEM.LASTVALUE1} / {ITEM.LASTVALUE2}'
+      priority: WARNING
+      manual_close: 'YES'
+      tags:
+        -
+          tag: API-Status
+          value: Credits
+    -
+      uuid: eca791b50bcf497d9475c78147640e97
+      expression: 'last(/Sendgrid API Provider/sendgrid.api.credits.used)>last(/Sendgrid API Provider/sendgrid.api.credits.total)*.9'
+      recovery_mode: RECOVERY_EXPRESSION
+      recovery_expression: 'last(/Sendgrid API Provider/sendgrid.api.credits.used) < last(/Sendgrid API Provider/sendgrid.api.credits.total)*.9'
+      name: 'Sendgrid Credits 90% Used'
+      opdata: '{ITEM.LASTVALUE1} / {ITEM.LASTVALUE2}'
+      priority: HIGH
+      manual_close: 'YES'
+      tags:
+        -
+          tag: API-Status
+          value: Credits
+    -
+      uuid: 49fd42be90b4413683afecf1ecfa737a
+      expression: 'last(/Sendgrid API Provider/sendgrid.api.credits.used)>last(/Sendgrid API Provider/sendgrid.api.credits.total)'
+      recovery_mode: RECOVERY_EXPRESSION
+      recovery_expression: 'last(/Sendgrid API Provider/sendgrid.api.credits.used) < last(/Sendgrid API Provider/sendgrid.api.credits.total)'
+      name: 'Sendgrid Credits 100% Used'
+      opdata: '{ITEM.LASTVALUE1} / {ITEM.LASTVALUE2}'
+      priority: DISASTER
+      manual_close: 'YES'
+      tags:
+        -
+          tag: API-Status
+          value: Credits
+  graphs:
+    -
+      uuid: 087ddbfe3b784eeebaa16f0cb09787ae
+      name: 'Sendgrid Access Authroized Recent Activity'
+      graph_items:
+        -
+          sortorder: '1'
+          color: 1A7C11
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.security.ipaccess.activity.count
+    -
+      uuid: 133854669d014bdabcc070979d780022
+      name: 'Sendgrid Acess Authroized IPs'
+      graph_items:
+        -
+          sortorder: '1'
+          color: 1A7C11
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.security.ipaccess.count
+    -
+      uuid: 9a0d932309ad41819afa6ae785aa632f
+      name: 'Sendgrid API Keys'
+      graph_items:
+        -
+          sortorder: '1'
+          color: 1A7C11
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.security.apikeys.count
+    -
+      uuid: 9e68f4545e1e473a95a02d48a117d6c4
+      name: 'Sendgrid Credits'
+      graph_items:
+        -
+          sortorder: '1'
+          color: FF0000
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.credits.overage
+        -
+          sortorder: '2'
+          color: 81C784
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.credits.remaining
+        -
+          sortorder: '3'
+          color: 2D0707
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.credits.total
+        -
+          sortorder: '4'
+          color: A54F10
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.credits.used
+    -
+      uuid: e96eac78a07c4a1d98c6d0bb4fdc31ad
+      name: 'Sendgrid Recent Supressions'
+      graph_items:
+        -
+          sortorder: '1'
+          color: 1A7C11
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.supression.blocks.count
+        -
+          sortorder: '2'
+          color: F63100
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.supression.unsubscribes.count
+        -
+          sortorder: '3'
+          color: 2774A4
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.supression.invalidemails.count
+        -
+          sortorder: '4'
+          color: A54F10
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.supression.bounces.count
+        -
+          sortorder: '5'
+          color: FC6EA3
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.supression.spamreports.count
+    -
+      uuid: bedd4c57d7b64caa9e82a90ac2e45a04
+      name: 'Sendgrid Send IPs'
+      graph_items:
+        -
+          sortorder: '1'
+          color: 1A7C11
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.ips.assigned.count
+        -
+          sortorder: '2'
+          color: F63100
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.ips.warmup.count
+        -
+          sortorder: '3'
+          color: 2774A4
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.ips.count
+        -
+          sortorder: '4'
+          color: A54F10
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.ippools.count
+    -
+      uuid: 77cf1530d0de4c838e0632bdad3577a0
+      name: 'Sendgrid Supression Override Domains'
+      graph_items:
+        -
+          sortorder: '1'
+          color: 1A7C11
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.settings.mail.addresswhitelist.count
+    -
+      uuid: c378b826dbf9459e87ae7889a67893c0
+      name: 'Sendgrid Verified Senders'
+      graph_items:
+        -
+          sortorder: '1'
+          color: 1A7C11
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.verifiedsenders.count
+    -
+      uuid: 2d123a10b1a24d5fb5ef35e74bb937b2
+      name: 'Sendgrid Warning Domains'
+      graph_items:
+        -
+          sortorder: '1'
+          color: 1A7C11
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.verifiedsenders.domains.softfailures.count
+        -
+          sortorder: '2'
+          color: F63100
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.verifiedsenders.domains.hardfailures.count
+    -
+      uuid: 1b088abb80a345a8994ffc31999ab39e
+      name: 'Sendgrid Webhook Inbound Parsers'
+      graph_items:
+        -
+          sortorder: '1'
+          color: 1A7C11
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.webhooks.parse.settings.count
+    -
+      uuid: 0fd96ab281dc422ab8ee6eec02dead46
+      name: 'Sendgrid Whitelabels'
+      graph_items:
+        -
+          sortorder: '1'
+          color: 1A7C11
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.whitelabel.domains.count
+        -
+          sortorder: '2'
+          color: F63100
+          item:
+            host: 'Sendgrid API Provider'
+            key: sendgrid.api.whitelabel.links.count
