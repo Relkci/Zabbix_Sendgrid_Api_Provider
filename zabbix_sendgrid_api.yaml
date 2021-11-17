@@ -1,6 +1,6 @@
 zabbix_export:
   version: '5.4'
-  date: '2021-10-02T03:42:21Z'
+  date: '2021-11-17T23:21:56Z'
   groups:
     -
       uuid: c1042abaca9d435ca00326c24768d8b8
@@ -29,6 +29,13 @@ zabbix_export:
                 - $.body..length()
           master_item:
             key: sendgrid.api.alerts.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
           triggers:
             -
               uuid: cf2865b124bd424caadeca71970f6aef
@@ -57,6 +64,13 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
         -
           uuid: 6bee5b5b22da4235890705c3ca7dd4e5
           name: 'Sendgrid Supressions Count'
@@ -71,6 +85,16 @@ zabbix_export:
                 - $.body.length()
           master_item:
             key: sendgrid.api.asm.supressions.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: Supression
         -
           uuid: f2c449b4c1674795b599d51b47366597
           name: sendgrid.api.asm.supressions.data
@@ -89,6 +113,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Supression
         -
           uuid: 04abc5cb5dd64522934c8063ab412c75
           name: 'Sendgrid Supressions  Groups Count'
@@ -103,6 +137,16 @@ zabbix_export:
                 - $.body.length()
           master_item:
             key: sendgrid.api.asm.supressions.groups.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: Supression
         -
           uuid: 671c70d9fed245a2b0ad318b8e8b5fcf
           name: sendgrid.api.asm.supressions.groups.data
@@ -121,6 +165,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Supression
         -
           uuid: d99e8756364c40cca21ac823c9aad73d
           name: sendgrid.api.credits.data
@@ -140,6 +194,16 @@ zabbix_export:
               name: Accept
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Credits
+            -
+              tag: Sendgrid
+              value: Data
         -
           uuid: ca211690de0e41c09d96e1e9eab4576c
           name: 'Sendgrid Send Credits Overage'
@@ -154,6 +218,16 @@ zabbix_export:
                 - $.body.overage
           master_item:
             key: sendgrid.api.credits.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Credits
+            -
+              tag: Sendgrid
+              value: Overage
           triggers:
             -
               uuid: 4e474c12aee1400381a08402a2615976
@@ -182,6 +256,16 @@ zabbix_export:
                 - $.body.remain
           master_item:
             key: sendgrid.api.credits.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Credits
+            -
+              tag: Sendgrid
+              value: Remaining
         -
           uuid: aaf749f6cdc1453db4e72253029b124f
           name: 'Sendgrid Send Credits Total'
@@ -196,6 +280,13 @@ zabbix_export:
                 - $.body.total
           master_item:
             key: sendgrid.api.credits.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Credits
           triggers:
             -
               uuid: a8aa6dcf490a4334811698d2c3797947
@@ -222,6 +313,19 @@ zabbix_export:
                 - $.body.used
           master_item:
             key: sendgrid.api.credits.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Credits
+            -
+              tag: Sendgrid
+              value: Remaining
+            -
+              tag: Sendgrid
+              value: Used
         -
           uuid: 16a411ef883d4c92aca301d3b1690bbd
           name: 'Sendgrid Send Credits Used (Change)'
@@ -240,6 +344,16 @@ zabbix_export:
                 - ''
           master_item:
             key: sendgrid.api.credits.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Credits
+            -
+              tag: Sendgrid
+              value: Used
         -
           uuid: 38a8a639cd144a3cb09c8e4721a9d0da
           name: 'Sendgrid Designs Count'
@@ -254,6 +368,16 @@ zabbix_export:
                 - $.body._metadata.count
           master_item:
             key: sendgrid.api.designs.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: Design
         -
           uuid: b5e9476733d240d9bb2161956acc1922
           name: sendgrid.api.designs.data
@@ -272,6 +396,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Design
         -
           uuid: 2ed6ad96d3ba478b82d98989b7e85cb3
           name: 'Sendgrid IP Pools Count'
@@ -286,6 +420,16 @@ zabbix_export:
                 - $.body.length()
           master_item:
             key: sendgrid.api.ippools.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: ba778a597dab4d029264825965dcd21b
           name: sendgrid.api.ippools.data
@@ -304,6 +448,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: 65e4a261f8db4581890e5371bfb8aee5
           name: 'Sendgrid IPs Assigned Count'
@@ -318,6 +472,16 @@ zabbix_export:
                 - $.body.length()
           master_item:
             key: sendgrid.api.ips.assigned.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: 7e11d863b0b94f92815bebca58bbdc2c
           name: sendgrid.api.ips.assigned.data
@@ -336,6 +500,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: d75523d7669143a59afa5780e0e11832
           name: 'Sendgrid Send IPs Count'
@@ -350,6 +524,16 @@ zabbix_export:
                 - $.body.length()
           master_item:
             key: sendgrid.api.ips.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: 772289f579b24b7eb71bd9dc9c69f808
           name: sendgrid.api.ips.data
@@ -368,6 +552,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: b67949b6fb4b49ca962c58e0ce85cfa8
           name: 'Sendgrid IPs Remaining'
@@ -384,6 +578,16 @@ zabbix_export:
                 - $.body.results..remaining
           master_item:
             key: sendgrid.api.ips.remaining.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: c8a0fcfe499946c7a70b9c7c620a81f6
           name: sendgrid.api.ips.remaining.data
@@ -402,6 +606,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: c30367bdd51c4b23ae0130c2f82ae478
           name: 'Sendgrid IPs Purchase Cost'
@@ -418,6 +632,13 @@ zabbix_export:
                 - $.body.results..price_per_ip
           master_item:
             key: sendgrid.api.ips.remaining.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: 7181b207f28a416d9c4a01e26332f15d
           name: 'Sendgrid IPs Warmup Count'
@@ -432,6 +653,16 @@ zabbix_export:
                 - $.body.length()
           master_item:
             key: sendgrid.api.ips.warmup.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: 66c4d73ca80c4f42a153e96a3ca48560
           name: sendgrid.api.ips.warmup.data
@@ -450,6 +681,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: 3c6a0633009d470da1809727e8dadb0e
           name: 'Sendgrid Security - API Keys Count'
@@ -464,6 +705,13 @@ zabbix_export:
                 - $.body.result.length()
           master_item:
             key: sendgrid.api.security.apikeys.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
           triggers:
             -
               uuid: 4c9ab41f51a44516a549ec55653e2d87
@@ -505,6 +753,13 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
         -
           uuid: 6733b7fc43bd491ea734423b3db20f47
           name: 'Sendgrid Security - Authorized IP - Recent IP Authorization Activity Count'
@@ -519,6 +774,16 @@ zabbix_export:
                 - $.body.result.length()
           master_item:
             key: sendgrid.api.security.ipaccess.activity.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: 6fba4647de784a47b1bb715ec7288dd3
           name: sendgrid.api.security.ipaccess.activity.data
@@ -537,6 +802,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: cc955e6b2e3e452ebab531471009d3ab
           name: 'Sendgrid Security - Authorized IP Address Count'
@@ -551,6 +826,16 @@ zabbix_export:
                 - $.body.result.length()
           master_item:
             key: sendgrid.api.security.ipaccess.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: IPs
           triggers:
             -
               uuid: 28a31d47301c4bebbac922b36d236ae8
@@ -587,6 +872,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: 342e9411dbdc4174bc36037992287813
           name: 'Sendgrid Security Subusers Count'
@@ -601,6 +896,16 @@ zabbix_export:
                 - $.body.length()
           master_item:
             key: sendgrid.api.security.subusers.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: User
           triggers:
             -
               uuid: c0916b0a73cc4d748cc9679fab191490
@@ -627,6 +932,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: User
         -
           uuid: 416e66a3ec7c412697d540a4eceb1e07
           name: sendgrid.api.settings.enforcedtls.data
@@ -645,6 +960,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: cdea1efd65d4424ab2edf9e05526995b
           name: 'Sendgrid Settings - Enforced TLS Enabled'
@@ -660,6 +985,13 @@ zabbix_export:
                 - $.body.require_tls
           master_item:
             key: sendgrid.api.settings.enforcedtls.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: af4dfa4e63534464b9adf5c7936a838e
           name: 'Sendgrid Settings - TLS Valid Cert Required'
@@ -675,6 +1007,13 @@ zabbix_export:
                 - $.body.require_valid_cert
           master_item:
             key: sendgrid.api.settings.enforcedtls.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: 11eb2f6db4114522877d4f1695f21645
           name: 'Sendgrid Settings - Enforced TLS Version'
@@ -690,6 +1029,13 @@ zabbix_export:
                 - $.body.version
           master_item:
             key: sendgrid.api.settings.enforcedtls.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: 79e5f90ed41b443e90d27154b7c95cb0
           name: 'Sendgrid Settings - Mail - Address Whitelist Count'
@@ -704,6 +1050,16 @@ zabbix_export:
                 - $.body.list.length()
           master_item:
             key: sendgrid.api.settings.mail.addresswhitelist.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: d2503444e04747bea5969ab217a27eda
           name: sendgrid.api.settings.mail.addresswhitelist.data
@@ -722,6 +1078,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: 4288e5c9e0f04edaa1298c9dfdc97b88
           name: 'Sendgrid Settings - Mail - Address Whitelist Enabled'
@@ -737,6 +1103,13 @@ zabbix_export:
                 - $.body.enabled
           master_item:
             key: sendgrid.api.settings.mail.addresswhitelist.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: 9b85e7f2c5d1475c8051c6fd04f918bc
           name: sendgrid.api.settings.mail.data
@@ -756,6 +1129,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: c0f6b12acb364dd89df1cfe7fb84980e
           name: sendgrid.api.settings.mail.forwardspam.data
@@ -774,6 +1157,19 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Settings
+            -
+              tag: Sendgrid
+              value: SpamReports
         -
           uuid: 362f1e59f53747c7b1836709d607ec3e
           name: 'Sendgrid Settings - Mail - Forward Spam Reports Email Address'
@@ -789,6 +1185,16 @@ zabbix_export:
                 - $.body.email
           master_item:
             key: sendgrid.api.settings.mail.forwardspam.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Settings
+            -
+              tag: Sendgrid
+              value: SpamReports
           triggers:
             -
               uuid: 0107d85ada3a4047b834570a05e3e2ad
@@ -812,6 +1218,16 @@ zabbix_export:
                 - $.body.enabled
           master_item:
             key: sendgrid.api.settings.mail.forwardspam.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Settings
+            -
+              tag: Sendgrid
+              value: SpamReports
         -
           uuid: d3297cd17c8c454da742b7dc2e1b2fc3
           name: sendgrid.api.stats.data
@@ -830,6 +1246,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Stats
         -
           uuid: 229d337a89f54b298a6ae3ca9387d062
           name: 'Sendgrid Supression - Recent Blocks Count'
@@ -844,6 +1270,16 @@ zabbix_export:
                 - $.body.length()
           master_item:
             key: sendgrid.api.supression.blocks.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: Supression
           triggers:
             -
               uuid: 82654b22c8a84ca8a92430ff8238d40a
@@ -870,6 +1306,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Supression
         -
           uuid: 42cfbbb3d38340909f6718c3c9c46823
           name: 'Sendgrid Supressions Recent Bounces Count'
@@ -884,6 +1330,16 @@ zabbix_export:
                 - $.body.length()
           master_item:
             key: sendgrid.api.supression.bounces.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: Supression
           triggers:
             -
               uuid: fd246385e4be4b63a3d019f27a2ee09a
@@ -910,6 +1366,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Supression
         -
           uuid: 1e8820c180924431a5625aac0ff46c91
           name: 'Sendgrid Supressions Recent Invalid Emails Count'
@@ -924,6 +1390,16 @@ zabbix_export:
                 - $.body.length()
           master_item:
             key: sendgrid.api.supression.invalidemails.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: Supression
           triggers:
             -
               uuid: 9793fbc39e2b4fbeba808ee17b9eb594
@@ -950,6 +1426,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Supression
         -
           uuid: 15163f8178124c3e9fede7d9c98ef704
           name: 'Sendgrid Supression Recent Spam Reports Count'
@@ -964,6 +1450,19 @@ zabbix_export:
                 - $.body.length()
           master_item:
             key: sendgrid.api.supression.spamreports.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: SpamReports
+            -
+              tag: Sendgrid
+              value: Supression
           triggers:
             -
               uuid: 99c89942e24e49f7ac06355fb43a983e
@@ -990,6 +1489,19 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: SpamReports
+            -
+              tag: Sendgrid
+              value: Supression
         -
           uuid: 686331bed2ba485ba8bedfbf764d878d
           name: 'Sendgrid Supressions Recent Unsubscribes Count'
@@ -1004,6 +1516,16 @@ zabbix_export:
                 - $.body.length()
           master_item:
             key: sendgrid.api.supression.bounces.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: Supression
           triggers:
             -
               uuid: 4b1978171a4245ed926478edf97ba4e9
@@ -1030,6 +1552,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Supression
         -
           uuid: 7a71017613344a0c807d3e6d919f8f3a
           name: sendgrid.api.tracking.settings.data
@@ -1049,6 +1581,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: 4e97c4e05d7541d6be07047a20821d5e
           name: sendgrid.api.tracking.settings.googleanalytics.data
@@ -1067,6 +1609,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: 0762eb1e62154688844e3a23a845e00b
           name: 'Sendgrid Google Analytics Enabled'
@@ -1082,6 +1634,13 @@ zabbix_export:
                 - $.body.enabled
           master_item:
             key: sendgrid.api.tracking.settings.googleanalytics.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: 4c572801f9a045728ce2987429b68ee4
           name: sendgrid.api.tracking.settings.open.data
@@ -1100,6 +1659,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: 54e1574e8bdf41e5b6affe0e7b2d35b3
           name: 'Sendgrid Settings Tracking Email Opens Enabled'
@@ -1115,6 +1684,13 @@ zabbix_export:
                 - $.body.enabled
           master_item:
             key: sendgrid.api.tracking.settings.open.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: dd8aca74cdba418ab0b5cdab60d0cd5b
           name: sendgrid.api.verifiedsenders.completed.data
@@ -1133,6 +1709,13 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
         -
           uuid: eae4db791d6149b4b9a693549b681a9c
           name: 'Sendgrid Verified Senders Count'
@@ -1148,6 +1731,13 @@ zabbix_export:
               error_handler: DISCARD_VALUE
           master_item:
             key: sendgrid.api.verifiedsenders.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
           triggers:
             -
               uuid: c7c5196cc623430185377e51b0f38abe
@@ -1174,6 +1764,13 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
         -
           uuid: 7a289f48dd5b4e37a41981b434a2185e
           name: sendgrid.api.verifiedsenders.domains.data
@@ -1192,6 +1789,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Domains
         -
           uuid: b2e6d88669bd4426a4ffbfcfe840d0a8
           name: 'Sendgrid Verified Senders - Domain Warn - Hard Failures Count'
@@ -1206,6 +1813,16 @@ zabbix_export:
                 - $.body.results.hard_failures.length()
           master_item:
             key: sendgrid.api.verifiedsenders.domains.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: Domains
         -
           uuid: 5bff5b8f93364a40a2d52e1319cbc401
           name: 'Sendgrid Verified Senders - Domain Warn - Soft Failures Count'
@@ -1220,6 +1837,16 @@ zabbix_export:
                 - $.body.results.soft_failures.length()
           master_item:
             key: sendgrid.api.verifiedsenders.domains.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: Domains
         -
           uuid: ec9d02ed965c4fce997cc44e10b0e362
           name: 'Sendgrid Verified Senders - Domain Verification Completed'
@@ -1235,6 +1862,13 @@ zabbix_export:
                 - $.body.results.domain_verified
           master_item:
             key: sendgrid.api.verifiedsenders.completed.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Domains
           triggers:
             -
               uuid: 660f8ed4279845eb905611a5cdbd5a7b
@@ -1260,6 +1894,10 @@ zabbix_export:
                 - $.body.results.sender_verified
           master_item:
             key: sendgrid.api.verifiedsenders.completed.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
           triggers:
             -
               uuid: 4bc745ef3126419795679db5f41ad9f2
@@ -1285,6 +1923,10 @@ zabbix_export:
                 - $.body.bounce
           master_item:
             key: sendgrid.api.webhooks.events.settings.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
         -
           uuid: 646adf11fb12408c97b3ed58da8d54a9
           name: 'Sendgrid Webhook Events - Click Enabled'
@@ -1300,6 +1942,10 @@ zabbix_export:
                 - $.body.click
           master_item:
             key: sendgrid.api.webhooks.events.settings.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
         -
           uuid: 1b1178a09f974feba9edf9f9234b398d
           name: 'Sendgrid Webhook Events - Deferred Enabled'
@@ -1315,6 +1961,10 @@ zabbix_export:
                 - $.body.deferred
           master_item:
             key: sendgrid.api.webhooks.events.settings.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
         -
           uuid: 8497180acbf34b549afa67aa30288291
           name: 'Sendgrid Webhook Events - Delivered Enabled'
@@ -1330,6 +1980,10 @@ zabbix_export:
                 - $.body.delivered
           master_item:
             key: sendgrid.api.webhooks.events.settings.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
         -
           uuid: 9bceb72b7a94409781929c37e05ab5d3
           name: 'Sendgrid Webhook Events - Dropped Enabled'
@@ -1345,6 +1999,10 @@ zabbix_export:
                 - $.body.dropped
           master_item:
             key: sendgrid.api.webhooks.events.settings.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
         -
           uuid: a5ece716c3b44d7caaeb4e60635a4ff5
           name: 'Sendgrid Webhook Events - Group Resubscribe Enabled'
@@ -1360,6 +2018,10 @@ zabbix_export:
                 - $.body.group_resubscribe
           master_item:
             key: sendgrid.api.webhooks.events.settings.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
         -
           uuid: 2cb61b28e20a4e5284d6f08c62ddd982
           name: 'Sendgrid Webhook Events - Group Unsubscribe Enabled'
@@ -1375,6 +2037,10 @@ zabbix_export:
                 - $.body.group_unsubscribe
           master_item:
             key: sendgrid.api.webhooks.events.settings.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
         -
           uuid: 7ba3a3848079403eb0c291d6962b2434
           name: 'Sendgrid Webhook Events - Open Enabled'
@@ -1390,6 +2056,10 @@ zabbix_export:
                 - $.body.open
           master_item:
             key: sendgrid.api.webhooks.events.settings.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
         -
           uuid: 44623f18f4eb478eb7ded76cc5b9b9fc
           name: 'Sendgrid Webhook Events - Processed Enabled'
@@ -1405,6 +2075,10 @@ zabbix_export:
                 - $.body.processed
           master_item:
             key: sendgrid.api.webhooks.events.settings.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
         -
           uuid: d7a57257e4e74f5c8593af9fd7fc87da
           name: sendgrid.api.webhooks.events.settings.data
@@ -1423,6 +2097,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: 055e6d1d5cbe443a8f2268ab3d49b586
           name: 'Sendgrid Webhook Events - Spam Report Enabled'
@@ -1438,6 +2122,13 @@ zabbix_export:
                 - $.body.spam_report
           master_item:
             key: sendgrid.api.webhooks.events.settings.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: SpamReports
         -
           uuid: 74d5a1a790b7469bb06d305648bf3ce8
           name: 'Sendgrid Webhook Events - Unsubscribe Enabled'
@@ -1453,6 +2144,10 @@ zabbix_export:
                 - $.body.unsubscribe
           master_item:
             key: sendgrid.api.webhooks.events.settings.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
         -
           uuid: d1d949a4f1284b0696f33fdb3fbe5a67
           name: 'Sendgrid Webhook Events - URL'
@@ -1468,6 +2163,10 @@ zabbix_export:
                 - $.body.url
           master_item:
             key: sendgrid.api.webhooks.events.settings.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
           triggers:
             -
               uuid: d0602bf423a1432cb0b33752dc79ad4a
@@ -1490,6 +2189,16 @@ zabbix_export:
                 - $.body.result.length()
           master_item:
             key: sendgrid.api.webhooks.parse.settings.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: 66b9fef1ad674fce92f1818df1615520
           name: sendgrid.api.webhooks.parse.settings.data
@@ -1508,6 +2217,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Settings
         -
           uuid: 2378e4b1a1764fc5a506b40be9b2d013
           name: 'Sendgrid Whitelabel Domains Count'
@@ -1522,6 +2241,16 @@ zabbix_export:
                 - $.body.length()
           master_item:
             key: sendgrid.api.whitelabel.domains.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
+            -
+              tag: Sendgrid
+              value: Domains
           triggers:
             -
               uuid: 4ebe52eea0414c8dbbbf6bd94cc74365
@@ -1548,6 +2277,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Domains
         -
           uuid: 37f19a53a02a4a1481f3e15cc3cf8c1c
           name: sendgrid.api.whitelabel.domains.default.data
@@ -1566,6 +2305,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: Domains
         -
           uuid: 57712f20e794405e97d3017661943be8
           name: sendgrid.api.whitelabel.ips.data
@@ -1584,6 +2333,16 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
+            -
+              tag: Sendgrid
+              value: IPs
         -
           uuid: 9db8b47a88734888ba5c1134bb1935c5
           name: 'Sendgrid Whitelabel Links Count'
@@ -1598,6 +2357,13 @@ zabbix_export:
                 - $.body.length()
           master_item:
             key: sendgrid.api.whitelabel.links.data
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Count
           triggers:
             -
               uuid: d4cb07857a864acb9c3b237465c10542
@@ -1624,6 +2390,13 @@ zabbix_export:
               name: Content-Type
               value: application/json
           output_format: JSON
+          tags:
+            -
+              tag: Application
+              value: Sendgrid
+            -
+              tag: Sendgrid
+              value: Data
       tags:
         -
           tag: API
@@ -1931,6 +2704,7 @@ zabbix_export:
         -
           sortorder: '2'
           color: F63100
+          yaxisside: RIGHT
           item:
             host: 'Sendgrid API Provider'
             key: sendgrid.api.whitelabel.links.count

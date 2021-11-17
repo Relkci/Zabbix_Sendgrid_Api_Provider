@@ -9,6 +9,8 @@ Zabbix Template for Sendgrid Account Metrics
 * [Features](#features)
 * [Details](#details)
 * [Triggers](#triggers)
+* [Macros](#macros)
+* [Tags](#tags)
 * [Known Limitations &amp; Issues](#known-limitations--issues)
 * [Screenshots](#screenshots)
 	* [Credits Graph](#credits-graph)
@@ -17,6 +19,7 @@ Zabbix Template for Sendgrid Account Metrics
 	* [Recent Authorized IPs](#recent-authorized-ips)
 	* [Recent Supressions](#recent-supressions)
 	* [Sendgrid White Labels](#sendgrid-white-labels)
+* [Updates](#updates)
 * [Contact](#contact)
 * [License](#license)
 * [Thanks](#thanks)
@@ -76,6 +79,28 @@ Built in Zabbix 5.4.  May work with other versions.
 - Sendgrid API Key Removed
 - Sendgrid API Key Added
 
+## Macros
+- {$SENDGRIDAPIKEY} (Your Sendgrid API Key)
+
+## Tags
+- Application:API
+- Application:Sendgrid
+- API:Sendgrid
+- Sendgrid:Data (JSON API Data Source)
+- Sendgrid:IPs (IP Information)
+- Sendgrid:Credits (Credit Information)
+- Sendgrid:Remaining (Credit Remaining)
+- Sendgrid:Overage (Credit overage)
+- Sendgrid:Settings (Account Settings)
+- Sendgrid:Stats (Stats Endpoint)
+- Sendgrid:User (SubUser Endpoint)
+- Sendgrid:Supression (Supression Stats)
+- Sendgrid:Design (Designs Endpoint)
+- Sendgrid:Count (Count of items)
+- Sendgrid:Domains (Domain Endpoint)
+- Sendgrid:SpamReports
+
+
 
 ## Known Limitations & Issues
 - Subuser account metrics are not gathered. 
@@ -102,10 +127,15 @@ Built in Zabbix 5.4.  May work with other versions.
 
 ### Recent Supressions
 ![](screenshots/graph5.png)
+![](screenshots/graph5a.png)
 
 ### Sendgrid White Labels
 ![](screenshots/graph6a.png)
+![](screenshots/graph6b.png)
 
+
+## Updates
+- Nov 17 2021: Updated tags, screenshots, addd export format
 
 ## Contact
 @Krelkci (twitter)   @ Relkci (Github)
